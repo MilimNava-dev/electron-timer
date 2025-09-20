@@ -61,7 +61,7 @@ export default function Timer(props) {
                 <div className="stopwatch">
                     <h3>{formatTime(time)}</h3>
                 </div>
-                <div class="controls">
+                <div className="controls">
                     {timeState === 'stop'|| timeState === 'pause'? <button className="control-button button" onClick={() => setTimeState('play')}>
                         <i className="fa-solid fa-play"></i>
                     </button>: null}

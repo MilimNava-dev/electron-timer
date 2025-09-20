@@ -1,6 +1,6 @@
-import { app, BrowserWindow } from 'electron';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { app, BrowserWindow } from "electron";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -9,23 +9,25 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 400,
     height: 600,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'), // o puedes quitarlo si no tienes preload.js
-    }
+    icon: path.join(app.getAppPath(), "dist/icon.ico"),
   });
   win.setMenu(null);
-  win.loadURL('http://localhost:5174'); // Usa el puerto correcto que te mostró Vite
-  //win.loadFile(path.join(__dirname, '../dist-frontend/index.html'));
+
+  if (!app.isPackaged) {
+    win.loadURL("http://localhost:5173");
+  } else {
+    win.loadFile(path.join(app.getAppPath(), "dist/index.html"));
+  }
 }
 
 app.whenReady().then(() => {
   createWindow();
 
-  app.on('activate', () => {
+  app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") app.quit();
 });
